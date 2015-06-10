@@ -1,0 +1,26 @@
+# OS generated files
+.DS_Store
+ehthumbs.db
+Icon?
+Thumbs.db
+
+# Node Files
+node_modules
+bower_components
+npm-debug.log
+.*
+!/.bowerrc
+!/.gitignore
+/output/
+/node_modules/
+
+# Project Files
+/bower_components/
+/tmp/
+
+public_build
+tmp
+*.log
+
+
+
