@@ -78,4 +78,5 @@
 :m bower_components/purescript-tuples/src/Data/Tuple.purs
 :m bower_components/purescript-unfoldable/src/Data/Unfoldable.purs
 :m src/Chapter2.purs
+:m src/Data/PhoneBook.purs
 :m src/Starter/Kit/Example.purs

@@ -9,6 +9,11 @@ module.exports = function(grunt) {
             "src/**/*.purs"
         ],
 
+        testFiles: [
+            "tests/Tests.purs",
+            "<%=libFiles%>"
+        ],
+
         clean: ["tmp", "output"],
 
         pscMake: {
@@ -18,7 +23,7 @@ module.exports = function(grunt) {
                 modules: ["Chapter2"],
             },
             tests: {
-                src: ["tests/Tests.purs", "<%=libFiles%>"]
+                src: ["<%=testFiles%>"]
             },
             all: {
                 dest: "output/"
@@ -46,7 +51,7 @@ module.exports = function(grunt) {
         },
 
         watch: {
-            files: ["<%= libFiles %>"],
+            files: ["<%= libFiles %>", "<%= testFiles %>"],
             tasks: ["clean", "make", "test"]
         }
     });
