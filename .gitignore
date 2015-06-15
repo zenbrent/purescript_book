@@ -11,12 +11,13 @@ npm-debug.log
 .*
 !/.bowerrc
 !/.gitignore
-/output/
+/dist/
 /node_modules/
 
 # Project Files
 /bower_components/
 /tmp/
+.psci
 
 public_build
 tmp

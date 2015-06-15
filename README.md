@@ -7,5 +7,5 @@ Working through Freeman's PureScript by Example (2015)
 ```
 npm install
 bower update
-grunt
+gulp
 ```

@@ -5,13 +5,14 @@
   "main": "",
   "private": true,
   "author": "Brent Brimhall",
-  "license": "MIT",
+  "license": "wtfpl",
   "dependencies": {
-    "grunt": "~0.4.4",
-    "grunt-contrib-clean": "^0.5.0",
-    "grunt-contrib-copy": "^0.5.0",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-execute": "^0.1.5",
-    "grunt-purescript": "~0.6.0"
+    "del": "^1.2.0",
+    "gulp": "^3.9.0",
+    "gulp-purescript": "^0.5.0-rc.1",
+    "gulp-watch": "^4.2.4"
+  },
+  "devDependencies": {
+    "babel": "^5.5.8"
   }
 }
