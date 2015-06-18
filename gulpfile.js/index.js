@@ -1,5 +1,6 @@
 // modified from http://blog.sigmapoint.pl/purescript-will-make-you-purr-like-a-kitten/
 //
+// Add plumber and finished notifications.
 // TODO: browserify! and tests!
 
 var del = require("del");

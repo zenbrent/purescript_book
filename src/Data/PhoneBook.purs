@@ -99,15 +99,62 @@ findEntry firstName lastName book = (head <<< filter filterEntry) book
       -- filterEntry is defined as an auxiliary declaration
       filterEntry :: Entry -> Boolean
       filterEntry entry = entry.firstName == firstName && entry.lastName == lastName
+
 {--
 -- or it could be
 findEntry firstName lastName book =  filter >>> filterEntry head  book
 --}
+{-- Exercise 3.1:
+Test your understanding of the findEntry function by writing down the types of each of its major subexpressions. For example, the type of the head function as used is specialized to List Entry -> Maybe Entry.
+<<< ??
+filter
+    me:
+    (Entry -> Boolean) -> List Entry -> List Entry
+    actual:
+    forall a. (a -> Prim.Boolean) -> Data.List.List a -> Data.List.List a
+
+==
+    me:
+    Entry -> Entry -> Boolean
+    actual:
+    forall a. (Prelude.Eq a) => a -> a -> Prim.Boolean
+
+&&
+    me:
+    Boolean -> Boolean -> Boolean
+--}
+
+
 
 -- <$> can lift a function over a particular type constructor like Maybe.
-{-- let printEntry firstName lastName book = showEntry <$> findEntry firstName lastName book --}
-
 {--
-    TODO:
-    The exercises on p31
+let printEntry firstName lastName book = showEntry <$> findEntry firstName lastName book
+--}
+
+{-- Exercise 3.2:
+Write a function which looks up an Entry given a phone number, by reusing the existing code in findEntry. Test your function in psci.
+--}
+
+findEntryByPhone :: String -> PhoneBook -> Maybe Entry
+findEntryByPhone phone book = (head <<< filter filterEntry) book
+    where
+        filterEntry :: Entry -> Boolean
+        filterEntry entry = entry.phone == phone
+
+{-- psci entry:
+let brent = { firstName: "brent", lastName: "brimhall", phone: "555-123-4567" }
+let courtney = { firstName: "c", lastName: "b", phone: "585-123-4567" }
+let book1 = insertEntry courtney (insertEntry brent emptyBook)
+let printEntry phone book = showEntry <$> findEntryByPhone phone book
+printEntry "555-123-4567" book1
+--}
+
+
+-- TODO: These exercises
+{-- Exercise 3.3, moderate difficulty:
+Write a function which tests whether a name appears in a PhoneBook, returning a Boolean value. Hint: Use psci to find the type of the Data.List.null function, which test whether a list is empty or not.
+--}
+
+{-- Exercise 3.4, moderate difficulty:
+Write a function removeDuplicates which removes duplicate phone book entries with the same first and last names. Hint: Use psci to find the type of the Data.List.nubBy function, which removes duplicate elements from a list based on an equality predicate.
 --}
