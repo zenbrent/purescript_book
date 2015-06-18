@@ -1,0 +1,18 @@
+{
+  "name": "purescript_book",
+  "version": "0.0.1",
+  "description": "Working through Freeman's PureScript by Example (2015)",
+  "main": "",
+  "private": true,
+  "author": "Brent Brimhall",
+  "license": "wtfpl",
+  "dependencies": {
+    "del": "^1.2.0",
+    "gulp": "^3.9.0",
+    "gulp-purescript": "^0.5.0-rc.1",
+    "gulp-watch": "^4.2.4"
+  },
+  "devDependencies": {
+    "babel": "^5.5.8"
+  }
+}

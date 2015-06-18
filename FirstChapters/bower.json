@@ -1,0 +1,30 @@
+{
+  "name": "purescript_book",
+  "description": "Working through Freeman's PureScript by Example (2015)",
+  "keywords": [
+    "purescript"
+  ],
+  "ignore": [
+    "**/.*",
+    "bower_components",
+    "node_modules",
+    "output",
+    "tests",
+    "js",
+    "tmp",
+    "bower.json",
+    "Gruntfile.js",
+    "package.json"
+  ],
+  "dependencies": {
+    "purescript-arrays": "*",
+    "purescript-foldable-traversable": "*",
+    "purescript-lists": "~0.6.2",
+    "purescript-maybe": "*",
+    "purescript-strings": "*"
+  },
+  "devDependencies": {
+    "purescript-math": "*",
+    "purescript-quickcheck": "*"
+  }
+}
