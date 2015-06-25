@@ -1,12 +1,14 @@
 // modified from http://blog.sigmapoint.pl/purescript-will-make-you-purr-like-a-kitten/
 //
-// Add plumber and finished notifications.
 // TODO: browserify! and tests!
 
 var del = require("del");
 var gulp = require("gulp");
+var plumber = require("gulp-plumber");
 var purescript = require("gulp-purescript");
 var watch = require("gulp-watch");
+var notify = require("gulp-notify");
+var _ = require("highland");
 
 var src = [
     "src/**/*.purs",
@@ -24,35 +26,41 @@ var dest = "dist";
 
 var watchOptions = {verbose: true};
 
-function pscMake() {
-    return purescript.pscMake({output: dest});
+function psCompile(notification) {
+    return function() {
+        return gulp
+        .src(src)
+        .pipe(plumber())
+        .pipe(purescript.pscMake({output: dest}))
+        .pipe(_().last())
+        .pipe(notify("purescript:node done"));
+    };
 }
 
-function dotPsci() {
-    return purescript.dotPsci();
+function psciCompile(notification) {
+    return function() {
+        return gulp
+        .src(watchSrc, watchOptions)
+        .pipe(plumber())
+        .pipe(purescript.dotPsci())
+        .pipe(_().last())
+        .pipe(notify(notification));
+    };
 }
 
-gulp.task("purescript:node", function() {
-    return gulp.src(src).pipe(pscMake())
-});
+gulp.task("purescript:node", psCompile("purescript:node done"));
 
 gulp.task("purescript:node:watch", function() {
-    return watch(src, watchOptions, function() {
-        return gulp.src(src).pipe(pscMake())
-    });
+    return watch(src, watchOptions,
+                 psCompile("purescript:node:watch done"));
 });
 
-
-gulp.task("purescript:psci", function() {
-    return gulp.src(watchSrc, watchOptions).pipe(dotPsci());
-});
+gulp.task("purescript:psci", psciCompile("purescript:psci done"));
 
 gulp.task("purescript:psci:watch", function() {
-    return watch(watchSrc, watchOptions, function() {
-        return gulp.src(watchSrc, watchOptions).pipe(dotPsci());
-    });
+    return watch(watchSrc, watchOptions,
+                 psciCompile("purescript:psci:watch done"));
 });
-
 
 gulp.task("clean", function(cb) {
     del(dest, cb);
