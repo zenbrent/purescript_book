@@ -20,7 +20,8 @@
     "purescript-arrays": "*",
     "purescript-maybe": "*",
     "purescript-foldable-traversable": "*",
-    "purescript-lists": "~0.6.2"
+    "purescript-lists": "~0.6.2",
+    "purescript-control": "~0.2.6"
   },
   "devDependencies": {
     "purescript-math": "*",
