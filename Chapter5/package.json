@@ -1,7 +1,7 @@
 {
-  "name": "purescript_book",
-  "version": "0.0.1",
-  "description": "Working through Freeman's PureScript by Example (2015)",
+  "name": "purescript-book-chapter5",
+  "version": "0.1.0",
+  "description": "Pattern Matching",
   "main": "",
   "private": true,
   "author": "Phil Freeman, Brent Brimhall",
@@ -14,8 +14,5 @@
     "gulp-purescript": "^0.5.0-rc.1",
     "gulp-watch": "^4.2.4",
     "highland": "^2.5.1"
-  },
-  "devDependencies": {
-    "babel": "^5.5.8"
   }
 }

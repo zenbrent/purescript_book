@@ -4,7 +4,9 @@ import Control.MonadPlus
 import Data.Array
 import Data.Foldable
 import Data.Path
+import Data.Maybe
 
+{--
 allFiles :: Path -> [Path]
 allFiles root = root : concatMap allFiles (ls root)
 
@@ -12,6 +14,7 @@ allFiles' :: Path -> [Path]
 allFiles' file = file : do
   child <- ls file
   allFiles' child
+--}
 
 
 -- Some examples of recursion:
@@ -133,7 +136,7 @@ let factors n = filter (\pair -> product pair == n) (pairs n)
 --}
 
 {-- 4.10 Do notation!
--- Just like map and concatMap allow array comprehensions, <$> and >>== allow monad comprehensions.
+-- Just like map and concatMap allow array comprehensions, <$> and >>= allow monad comprehensions.
 factors :: Number -> [[Number]]
 factors n = filter (\xs -> product xs == n) $ do
     -- bind elements of the array to a name --  <- can be read as "choose"
@@ -313,4 +316,33 @@ reverseArr = foldl (\x xs -> [xs] ++ x) []
 reverseArr [1, 2, 3, 4]
 --}
 
+-- 4.16 A Virtual Filesystem
 
+-- Listing all files:
+allFiles :: Path -> [Path]
+-- not tco recursive:
+-- allFiles file = file : concatMap allFiles (ls file)
+allFiles file = file : do
+    child <- ls file
+    allFiles child
+
+
+-- 1. (Easy) Write a function onlyFiles which returns all files (not directories) in all subdirectories of a directory.
+onlyFiles :: Path -> [Path]
+-- onlyFiles file = filter (\d -> not $ isDirectory d) (allFiles file)
+onlyFiles file = filter (not <<< isDirectory) (allFiles file)
+
+{--
+onlyFiles root
+--}
+
+-- 2. (Medium) Write a fold to determine the largest and smallest files in the filesystem.
+
+{-- 3. (Difficult) Write a function whereIs to search for a file by name. The function should return a value of type Maybe Path, indicating the directory containing the file, if it exists. It should behave as follows:
+> whereIs "/bin/ls"
+Just (/bin/)
+
+> whereIs "/bin/cat"
+Nothing
+-- Hint: Try to write this function as an array comprehension using do notation.
+--}
