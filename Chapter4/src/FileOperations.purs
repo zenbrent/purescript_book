@@ -337,6 +337,29 @@ onlyFiles root
 --}
 
 -- 2. (Medium) Write a fold to determine the largest and smallest files in the filesystem.
+{--
+isLarger :: Path -> Path -> [Path]
+isLarger a b = do
+    let first = 0
+        second = 0
+    if (first) > (second b)
+                  then [a]
+                  else [b]
+--}
+
+{-- fileSizes :: Path -> Maybe Path --}
+{-- fileSizes path = foldl (size  Nothing (allFiles path) --}
+
+{-- 
+largestFile :: Path -> Maybe Path
+largestFile file = foldl s (allFiles file)
+  where
+      s :: Maybe Path -> Maybe Path -> Maybe Path
+      s (Nothing) p = p
+      s p (Nothing) = p
+      s (Nothing) (Nothing) = Nothing
+      s p q = p
+--}
 
 {-- 3. (Difficult) Write a function whereIs to search for a file by name. The function should return a value of type Maybe Path, indicating the directory containing the file, if it exists. It should behave as follows:
 > whereIs "/bin/ls"
