@@ -1,17 +1,18 @@
 {
-  "name": "purescript-book-chapter5",
+  "name": "purescript-book-chapter6",
   "version": "0.1.0",
-  "description": "Pattern Matching",
+  "description": "Type Classes",
   "main": "",
   "private": true,
   "author": "Phil Freeman, Brent Brimhall",
   "license": "Creative,Commons,Attribution-NonCommercial-ShareAlike,4.0,International,License",
   "dependencies": {
+    "bower": "^1.4.1",
     "del": "^1.2.0",
     "gulp": "^3.9.0",
     "gulp-notify": "^2.2.0",
     "gulp-plumber": "^1.0.1",
-    "gulp-purescript": "0.5.0-rc.1",
+    "gulp-purescript": "^0.5.0-rc.1",
     "gulp-watch": "^4.2.4",
     "highland": "^2.5.1"
   }

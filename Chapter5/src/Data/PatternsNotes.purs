@@ -302,4 +302,15 @@ shapeArea $ Text (Point {x: 10, y: 10}) "#yolo"
 -- 2. (Difficult) Extend the Shape type with a new data constructor Clipped, which clips another Picture to a rectangle. Extend the shapeBounds function to compute the bounds of a clipped picture. Note that this makes Shape into a recursive data type.
 
 
+-- Exercises 6.3:
+-- 1. (Easy) Use the showShape function from the previous chapter to define a Show instance for the Shape type.
 
+instance showShape :: Show Shape where
+    show shape = showShape shape
+
+{--
+show $ Circle (Point {x: 10, y: 100}) 2
+show $ Rectangle (Point {x: 10, y: 100}) 5 15
+show $ Line (Point {x: 10, y: 10}) (Point {x: 20, y: 100})
+show $ Text (Point {x: 10, y: 10}) "#yolo"
+--}
