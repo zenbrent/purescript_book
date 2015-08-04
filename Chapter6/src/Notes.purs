@@ -144,4 +144,39 @@ instance showNonEmpty :: Show (NonEmpty Number) where
 --}
 
 -- 6.4.3 (Medium) Write a functor instance for NonEmpty.
+
+instance functorNonEmpty :: Functor NonEmpty where
+    (<$>) fn (NonEmpty a b) = NonEmpty (fn a) (fn <$> b)
+
+{--
+(\a -> a * 2) <$> NonEmpty 9 []
+(\a -> a * 2) <$> NonEmpty (-1) [1, 0, 2, 3]
+--}
+
 -- 6.4.4 (Difficult) Write a Foldable instance for NonEmpty. Hint: reuse the Foldable instance for arrays.
+
+-- This can be specialized where f is Array, so you can replace f a with Array a
+import Data.Foldable
+import Data.Monoid
+
+-- Monoid describes the result of a fold, Foldable describes the type constructors of things that can be the used as a source for a fold.
+-- Foldable abstracts the concept of an ordered container.
+
+instance foldableNonEmpty :: Foldable NonEmpty where
+    -- foldl :: forall a b. (a -> b -> a) -> b -> f a -> b
+    foldl fn acc (NonEmpty a b) = foldl fn acc ([a] <> b)
+
+    -- foldr :: forall a b. (b -> a -> b) -> b -> f a -> b
+    foldr fn acc (NonEmpty a b) = foldr fn acc ([a] <> b)
+
+    -- foldMap :: forall a m. (Monoid m)  => (a -> m) -> f a -> m
+    foldMap fn (NonEmpty a b) = foldMap fn ([a] <> b)
+
+{--
+foldl (<>) mempty (NonEmpty "Hello" [" ", "World"])
+foldl (<>) mempty (NonEmpty [1, 2, 3] [[4], [5, 6]])
+foldr (<>) mempty (NonEmpty "Hello" [" ", "World"])
+foldMap ("" <>) (NonEmpty "Hello" [" ", "World"])
+--}
+
+
