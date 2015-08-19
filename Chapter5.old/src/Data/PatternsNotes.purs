@@ -22,8 +22,8 @@ wildcard -- _ matches any arg and doens't bind to a name.
 gcd :: Number -> Number -> Number
 gcd n 0 = n
 gcd 0 m = m
-gcd n m | n > m = gcd (n - m) m
-gcd n m         = gcd n (m - n)
+gcd n m | n > m     = gcd (n - m) m
+        | otherwise = gcd n (m - n)
 
 -- 5.5 Exercises:
 -- Write factorial fn using patterns.
