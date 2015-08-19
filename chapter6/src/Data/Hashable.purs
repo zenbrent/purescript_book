@@ -5,6 +5,8 @@ module Data.Hashable
   , Hashable
   , hash
   , hashEqual
+
+  , hasDuplicates
   ) where
 
 import Prelude 
@@ -67,3 +69,29 @@ instance hashTuple :: (Hashable a, Hashable b) => Hashable (Tuple a b) where
 instance hashEither :: (Hashable a, Hashable b) => Hashable (Either a b) where
   hash (Left a) = hashCode 0 <> hash a
   hash (Right b) = hashCode 1 <> hash b
+
+-- Exercises
+-- 1 (Easy) Use PSCI to test the hash functions for each of the defined instances.
+-- ( see ../../tests )
+
+-- 2 (Medium) Use the hashEqual function to write a function which tests if an array has any duplicate elements, using hash-equality as an approximation to value equality. Remember to check for value equality using == if a duplicate pair is found. Hint : the nubBy function in Data.Array should make this task much simpler.
+
+import qualified Data.Array (nubBy, length) as A
+
+hasDuplicates :: forall a. (Hashable a) => Array a -> Boolean
+hasDuplicates a = A.length a /= A.length (A.nubBy hashEqual a)
+
+-- 3 (Medium) 
+-- Write a Hashable instance for the following newtype which upholds the typeclass law:
+
+{--
+newtype Hour = Hour Int
+
+instance eqHour :: Eq Hour where
+    eq = eq `on` (`mod` 12)
+--}
+
+-- The newtype Hour and its Eq instance represent the type of integers modulo 12, so that 1 and 13 are identified as equal, for example. Prove that the type class law holds for your instance.
+
+-- 4 (Difficult) Prove the type class laws for the Hashable instances for Maybe, Either and Tuple.
+
