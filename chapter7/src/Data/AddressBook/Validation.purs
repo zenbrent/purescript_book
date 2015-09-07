@@ -38,6 +38,16 @@ phoneNumberRegex =
     , global:     false 
     }
 
+stateRegex :: R.Regex
+stateRegex = R.regex
+    "\\w\\w"
+    { unicode:    false
+    , sticky:     false
+    , multiline:  false
+    , ignoreCase: false
+    , global:     false 
+    }
+
 matches :: String -> R.Regex -> String -> V Errors Unit
 matches _     regex value | R.test regex value = pure unit
 matches field _     _     = invalid ["Field '" ++ field ++ "' did not match the required format"]
@@ -46,7 +56,8 @@ validateAddress :: Address -> V Errors Address
 validateAddress (Address o) = 
   address <$> (nonEmpty "Street" o.street *> pure o.street)
           <*> (nonEmpty "City"   o.city   *> pure o.city)
-          <*> (lengthIs "State" 2 o.state *> pure o.state)
+          <*> (matches "State" stateRegex o.state *> pure o.state)
+          -- <*> (lengthIs "State" 2 o.state *> pure o.state)
 
 validatePhoneNumber :: PhoneNumber -> V Errors PhoneNumber
 validatePhoneNumber (PhoneNumber o) = 

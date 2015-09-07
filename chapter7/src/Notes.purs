@@ -97,7 +97,7 @@ combineList (toList [Just 1, Nothing, Just 3])
 
 
 -- Exercises 7.8!
--- 1. (Easy) Use lift2 to write lifted versions of the numeric operators +, -, * and / which work with optional arguments.
+-- 7.8.1 (Easy) Use lift2 to write lifted versions of the numeric operators +, -, * and / which work with optional arguments.
 
 instance maybeSemiring :: (Semiring a) => Semiring (M.Maybe a) where
     add = lift2 add
@@ -106,7 +106,16 @@ instance maybeSemiring :: (Semiring a) => Semiring (M.Maybe a) where
     one = M.Just one
 
 {--
-(Just 2) + (Just 3)
-(+) Nothing (Just 1)
+(M.Just 2) + (M.Just 3)
+(+) M.Nothing (M.Just 1)
 --}
+
+-- 7.8.2 (Medium) Convince yourself that the definition of lift3 given above in terms of <$> and <*> does type check.
+
+-- 7.8.3 (Difficult) Write a function combineMaybe which has type
+-- forall a f. (Applicative f)=> Maybe (f a) -> f (Maybe a)
+-- This function takes an optional computation with side-effects, and returns a side-effecting computation which has an optional result.
+
+
+
 
