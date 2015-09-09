@@ -1,6 +1,7 @@
 module Data.AddressBook where
 
 import Prelude
+import Data.Maybe
 
 newtype Address = Address 
   { street :: String
@@ -35,22 +36,22 @@ phoneNumber ty number = PhoneNumber
 newtype Person = Person
   { firstName :: String
   , lastName  :: String
-  , address   :: Address
+  , address   :: Maybe Address
   , phones    :: Array PhoneNumber
   }
 
-person :: String -> String -> Address -> Array PhoneNumber -> Person
-person firstName lastName _address phones = Person
+person :: String -> String -> Maybe Address -> Array PhoneNumber -> Person
+person firstName lastName address_ phones = Person
   { firstName: firstName
   , lastName:  lastName
-  , address:   _address
+  , address:   address_
   , phones:    phones
   }
 
 examplePerson :: Person
 examplePerson = 
   person "John" "Smith" 
-         (address "123 Fake St." "FakeTown" "CA") 
+         (Just (address "123 Fake St." "FakeTown" "CA"))
          [ phoneNumber HomePhone "555-555-5555"
          , phoneNumber CellPhone "555-555-0000"
          ]

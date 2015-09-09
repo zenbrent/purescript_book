@@ -24,6 +24,16 @@ import Data.AddressBook.Validation
 {--
 validateAddress $ address "" "" ""
 validateAddress $ address "1234 N. South Street" "Tempe" "AZ"
+validatePerson $ person "John" "Smith" 
+         M.Nothing
+         [ phoneNumber HomePhone "555-555-5555"
+         , phoneNumber CellPhone "555-555-0000"
+         ]
+validatePerson $ person "John" "Smith" 
+         (M.Just (address "123 Fake St." "FakeTown" "CA"))
+         [ phoneNumber HomePhone "555-555-5555"
+         , phoneNumber CellPhone "555-555-0000"
+         ]
 --}
 
 -- 1. (Easy) Use a regular expression validator to ensure that the state field of the Address type contains two alphabetic characters. Hint: see the source code for phoneNumberRegex.
@@ -135,10 +145,7 @@ show (Branch <$> Leaf <*> (Branch Leaf 1 Leaf) <*> Leaf)
 
 -- This corresponds to an in-order traversal of the tree. What about a preorder traversal? What about reverse order?
 
-
-
--- instance traverseTree :: 
-
 -- 7.11.2 (Medium) Modify the code to make the address field of the Person type optional using Data.Maybe. Hint : Use traverse to validate a field of type Maybe a.
+-- done!
 
--- 3. (Difficult) Try to write sequence in terms of traverse. Can you write traverse in terms ofsequence?
+-- 3. (Difficult) Try to write sequence in terms of traverse. Can you write traverse in terms of sequence?
