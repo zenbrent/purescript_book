@@ -41,7 +41,7 @@ main = do
     
   setFillStyle "#FF0000" ctx
 
-  fillPath ctx $ do
+  strokePath ctx $ do
     moveTo ctx 300.0 260.0
     lineTo ctx 260.0 340.0
     lineTo ctx 340.0 340.0

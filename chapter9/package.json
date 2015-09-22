@@ -1,0 +1,19 @@
+{
+  "name": "chapter9",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/Main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "buildrect": "pulp --watch build -O --main Example.Rectangle --to dist/Main.js",
+    "buildshapes": "pulp --watch build -O --main Example.Shapes --to dist/Main.js",
+    "buildrand": "pulp --watch build -O --main Example.Random --to dist/Main.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bower": "^1.5.2",
+    "pulp": "^4.4.0",
+    "purescript": "^0.7.4"
+  }
+}

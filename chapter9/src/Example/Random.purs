@@ -15,7 +15,7 @@ main = do
   Just canvas <- getCanvasElementById "canvas"
   ctx <- getContext2D canvas
 
-  setFillStyle "#FF0000" ctx
+  setFillStyle "#aa0055" ctx
   setStrokeStyle "#000000" ctx 
 
   for_ (1 .. 100) \_ -> do
