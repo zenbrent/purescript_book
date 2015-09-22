@@ -12,6 +12,11 @@ import Control.Monad.Eff.Random
 
 import Graphics.Canvas
 
+fillStrokePath :: forall eff a. Context2D -> Eff (canvas :: Canvas | eff) a -> Eff (canvas :: Canvas | eff) a
+fillStrokePath ctx path = do
+  fillPath ctx path
+  strokePath ctx path
+
 main = do
   Just canvas <- getCanvasElementById "canvas"
   ctx <- getContext2D canvas
@@ -23,7 +28,6 @@ main = do
     x <- random
     y <- random
     r <- random
-    rot <- random
 
     let path = arc ctx 
          { x     : x + 5.0 * toNumber i
@@ -44,10 +48,6 @@ main = do
     -- or
     withContext ctx $ do
       rotate (toNumber (i - 100) / 75.0) ctx
-      fillPath ctx path
-
-    withContext ctx $ do
-      rotate rot ctx
-      strokePath ctx path
+      fillStrokePath ctx path
 
     return unit
