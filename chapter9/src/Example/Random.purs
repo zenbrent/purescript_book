@@ -3,6 +3,7 @@ module Example.Random where
 import Prelude
 
 import Data.Maybe
+import Data.Int (toNumber)
 import Data.Array ((..))
 import Data.Foldable (for_)
 
@@ -18,20 +19,35 @@ main = do
   setFillStyle "#aa0055" ctx
   setStrokeStyle "#000000" ctx 
 
-  for_ (1 .. 100) \_ -> do
+  for_ (1 .. 100) \i -> do
     x <- random
     y <- random
     r <- random
+    rot <- random
 
     let path = arc ctx 
-         { x     : x * 600.0
-         , y     : y * 600.0
+         { x     : x + 5.0 * toNumber i
+         , y     : y + 5.0 * toNumber i
          , r     : r * 50.0
          , start : 0.0
-         , end   : Math.pi * 2.0
+         , end   : Math.pi
          }
     
+    {--
+    save ctx
+    rotate rot ctx
     fillPath ctx path
+    restore ctx
     strokePath ctx path
+    --}
+
+    -- or
+    withContext ctx $ do
+      rotate (toNumber (i - 100) / 75.0) ctx
+      fillPath ctx path
+
+    withContext ctx $ do
+      rotate rot ctx
+      strokePath ctx path
 
     return unit
