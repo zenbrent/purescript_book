@@ -30,6 +30,7 @@ valueOf sel = do
         _ -> ""
 
 displayValidationErrors :: forall eff. Array String -> Eff (dom :: DOM | eff) Unit
+-- Create a div for each error and add it to the UI.
 displayValidationErrors errs = do
   alert <- createElement "div"
     >>= addClass "alert"
@@ -48,6 +49,24 @@ displayValidationErrors errs = do
 
   return unit
 
+displayValidationErrorsDiv :: forall eff. Array String -> Eff (dom :: DOM | eff) Unit
+displayValidationErrorsDiv errs = do
+  alert <- createElement "div"
+
+  foreachE errs $ \err -> do
+    div <- createElement "div"
+      >>= addClass "alert"
+      >>= addClass "alert-danger"
+      >>= setText err
+
+    div `appendChild` alert
+    return unit
+
+  Just validationErrors <- querySelector "#validationErrors"
+  alert `appendChild` validationErrors
+
+  return unit
+
 validateControls :: forall eff. Eff (console :: CONSOLE, dom :: DOM | eff) (Either (Array String) Person)
 validateControls = do
   log "Running validators"
@@ -59,6 +78,7 @@ validateControls = do
                            <*> valueOf "#inputState")
               <*> sequence [ phoneNumber HomePhone <$> valueOf "#inputHomePhone"
                            , phoneNumber CellPhone <$> valueOf "#inputCellPhone"
+                           , phoneNumber WorkPhone <$> valueOf "#inputWorkPhone"
                            ]
 
   return $ validatePerson' p
@@ -71,7 +91,7 @@ validateAndUpdateUI = do
   errorsOrResult <- validateControls
 
   case errorsOrResult of
-    Left errs -> displayValidationErrors errs
+    Left errs -> displayValidationErrorsDiv errs
     Right result -> print result
 
   return unit
@@ -80,5 +100,9 @@ setupEventHandlers :: forall eff. Eff (console :: CONSOLE, dom :: DOM | eff) Uni
 setupEventHandlers = do
   -- Listen for changes on form fields
   body >>= addEventListener "change" validateAndUpdateUI
+  {-- Could have been written as:
+  b <- body
+  addEventListener "change" validateAndUpdateUI b
+  --}
 
   return unit
