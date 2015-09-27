@@ -8,7 +8,8 @@
     "buildrect": "pulp --watch build -O --main Example.Rectangle --to dist/Main.js",
     "buildshapes": "pulp --watch build -O --main Example.Shapes --to dist/Main.js",
     "buildrand": "pulp --watch build -O --main Example.Random --to dist/Main.js",
-    "buildrefs": "pulp --watch build -O --main Example.Refs --to dist/Main.js"
+    "buildrefs": "pulp --watch build -O --main Example.Refs --to dist/Main.js",
+    "buildl": "pulp --watch build -O --main Example.LSystem --to dist/Main.js"
   },
   "author": "",
   "license": "ISC",

@@ -47,15 +47,56 @@ main = do
     interpret state L = return $ state { theta = state.theta - Math.pi / 3.0 }
     interpret state R = return $ state { theta = state.theta + Math.pi / 3.0 }
     interpret state F = do
-      let x' = state.x + Math.cos state.theta * 1.5
-          y' = state.y + Math.sin state.theta * 1.5
-      moveTo ctx state.x state.y
+      let x' = state.x + Math.cos state.theta * 6.0
+          y' = state.y + Math.sin state.theta * 6.0
       lineTo ctx x' y'
       return { x: x', y: y', theta: state.theta }
 
     initialState :: State
-    initialState = { x: 120.0, y: 200.0, theta: 0.0 }
+    initialState = { x: 60.0, y: 160.0, theta: 0.0 }
 
   setStrokeStyle "#000000" ctx
 
-  strokePath ctx $ lsystem initial productions interpret 5 initialState
+  fillPath ctx $ do
+    moveTo ctx initialState.x initialState.y
+    lsystem initial productions interpret 4 initialState
+    closePath ctx
+
+
+-- Exercises
+-- (Easy) Modify the L-system example above to use fillPath instead of strokePath. Hint: you will need to include a call to closePath, and move the call to moveTo outside of the interpret function.
+-- done!
+
+-- (Easy) Try changing the various numerical constants in the code, to understand their effect on the rendered system.
+-- done!
+
+-- (Medium) Break the lsystem function into two smaller functions. The first should build the final sentence using repeated application of concatMap, and the second should use foldM to interpret the result.
+
+-- (Medium) Add a drop shadow to the filled shape, by using the setShadowOffsetX, setShadowOffsetY, setShadowBlur and setShadowColor actions. Hint: use PSCi to find the types of these functions.
+
+-- (Medium) The angle of the corners is currently a constant (pi/3). Instead, it can be moved into the Alphabet data type, which allows it to be changed by the production rules:
+{--
+type Angle = Number
+
+data Alphabet = L Angle | R Angle | F
+--}
+-- How can this new information be used in the production rules to create interesting shapes?
+
+-- (Difficult) An L-system is given by an alphabet with four letters: L (turn left through 60 degrees), R (turn right through 60 degrees), F (move forward) and M (also move forward).
+-- The initial sentence of the system is the single letter M.
+-- The production rules are specified as follows:
+{--
+L -> L
+R -> R
+F -> FLMLFRMRFRMRFLMLF
+M -> MRFRMLFLMLFLMRFRM
+--}
+-- Render this L-system. Note: you will need to decrease the number of iterations of the production rules, since the size of the final sentence grows exponentially with the number of iterations.
+
+-- Now, notice the symmetry between L and M in the production rules. The two “move forward” instructions can be differentiated using a Boolean value using the following alphabet type:
+{--
+data Alphabet = L | R | F Boolean
+--}
+-- Implement this L-system again using this representation of the alphabet.
+
+-- (Difficult) Use a different monad m in the interpretation function. You might try using the CONSOLE effect to write the L-system onto the console, or using the RANDOM effect to apply random “mutations” to the state type.
