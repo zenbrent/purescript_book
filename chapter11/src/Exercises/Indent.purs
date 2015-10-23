@@ -2,11 +2,11 @@ module Exercises.Indent where
 
 import Prelude
 
-import Data.Foldable (traverse_)
-import Control.Monad.State
-import Control.Monad.State.Class
+import Data.Foldable (foldl)
 import Control.Monad.Reader
 import Control.Monad.Reader.Class
+import Data.Traversable
+import Data.Array (concat)
 
 type Level = Int
 type Doc = Reader Level String
@@ -23,12 +23,12 @@ repeated s 1 = s
 repeated s n | n > 1 = s ++ repeated s (n - 1)
 
 spaces :: Int -> String
-spaces = repeated " "
+spaces = repeated " __ "
 
 line :: String -> Doc
 line s = do
     level <- ask
-    return (spaces level ++ s)
+    return $ spaces level ++ s
 
 {-- 11.5.2
 (Easy) Use the local function to write a function
@@ -37,9 +37,7 @@ which increases the indentation level for a block of code.
 --}
 
 indent :: Doc -> Doc
-indent = do
-    level <- ask
-    local (level + 1)
+indent = local ((+) 1)
 
 {-- 11.5.3
 (Medium) Use the sequence function defined in Data.Traversable to write a function
@@ -47,11 +45,25 @@ indent = do
 which concatenates a collection of documents, separating them with new lines.
 --}
 
+docJoin :: Doc -> Doc -> Doc
+docJoin a b = (++) <$> a <*> b
+
+cat :: Array Doc -> Doc
+cat = foldl (\a b -> a `docJoin` pure "\n" `docJoin` b)
+            (pure "")
+
+
 {-- 11.5.4
 (Medium) Use the runReader function to write a function
     render :: Doc -> String
 which renders a document as a String.
+--}
 
+render :: Doc -> String
+render doc = runReader doc 0
+
+
+{--
 You should now be able to use your library to write simple documents, as follows:
 
 render $ cat 
@@ -59,7 +71,12 @@ render $ cat
   , indent $ cat 
       [ line "I am indented"
       , line "So am I"
-      , indent $ line "I am even more indented"
+      , indent $ cat
+          [ line "I am even more indented"
+          , line "still super indented!"
+          ]
+      , line "A little indented"
+      , indent $ indent $ line "I am even more indented"
       ]
   ]
 --}
