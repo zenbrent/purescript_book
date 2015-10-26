@@ -54,3 +54,5 @@ main = Y.runY (Y.usage "$0 -p <player name>") $ map runGame env
                         <*> Y.flag "d" ["debug"]
                                    (Just "Use debug mode")
 
+-- Exercise 11.17 (Medium)
+-- Add a new Boolean-valued property cheatMode to the GameEnvironment record. Add a new command line flag -c to the yargs configuration which enables cheat mode. The cheat command from the previous exercise should be disallowed if cheat mode is not enabled.
