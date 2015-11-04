@@ -30,14 +30,32 @@ foreign import writeFileImpl ::
                    (Eff (fs :: FS | eff) Unit) 
                    (ErrorCode -> Eff (fs :: FS | eff) Unit) 
                    (Eff (fs :: FS | eff) Unit) 
-                       
-readFile :: forall eff. FilePath -> (Either ErrorCode String -> Eff (fs :: FS | eff) Unit) -> Eff (fs :: FS | eff) Unit
-readFile path k = runFn3 readFileImpl path (k <<< Right) (k <<< Left)
 
-writeFile :: forall eff. FilePath -> String -> (Either ErrorCode Unit -> Eff (fs :: FS | eff) Unit) -> Eff (fs :: FS | eff) Unit
-writeFile path text k = runFn4 writeFileImpl path text (k $ Right unit) (k <<< Left)
+readFile :: forall eff.
+            FilePath ->
+            (Either ErrorCode String -> Eff (fs :: FS | eff) Unit) ->
+            Eff (fs :: FS | eff) Unit
+readFile path k =
+    runFn3 readFileImpl
+           path
+           (k <<< Right)
+           (k <<< Left)
 
-readFileCont :: forall eff. FilePath -> Async (fs :: FS | eff) (Either ErrorCode String)
+writeFile :: forall eff.
+             FilePath ->
+             String ->
+             (Either ErrorCode Unit -> Eff (fs :: FS | eff) Unit) ->
+             Eff (fs :: FS | eff) Unit
+writeFile path text k =
+    runFn4 writeFileImpl
+        path
+        text
+        (k $ Right unit)
+        (k <<< Left)
+
+readFileCont :: forall eff.
+                FilePath ->
+                Async (fs :: FS | eff) (Either ErrorCode String)
 readFileCont path = ContT $ readFile path
 
 writeFileCont :: forall eff. FilePath -> String -> Async (fs :: FS | eff) (Either ErrorCode Unit)
